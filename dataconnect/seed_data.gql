@@ -1,0 +1,72 @@
+mutation SeedDatabase @auth(level: NO_ACCESS) @transaction {
+  user_insertMany(data: [
+    {
+      id: "550e8400-e29b-41d4-a716-446655440000",
+      createdAt: "2024-04-26T12:00:00Z",
+      displayName: "Demo User 1"
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440001",
+      createdAt: "2024-04-26T13:00:00Z",
+      displayName: "Demo User 2"
+    }
+  ])
+  category_insertMany(data: [
+    {
+      id: "650e8400-e29b-41d4-a716-446655440000",
+      userId: "550e8400-e29b-41d4-a716-446655440000",
+      createdAt: "2024-04-26T14:00:00Z",
+      name: "Groceries",
+      type: "Expense"
+    },
+    {
+      id: "650e8400-e29b-41d4-a716-446655440001",
+      userId: "550e8400-e29b-41d4-a716-446655440001",
+      createdAt: "2024-04-26T15:00:00Z",
+      name: "Salary",
+      type: "Income"
+    }
+  ])
+  account_insertMany(data: [
+    {
+      id: "750e8400-e29b-41d4-a716-446655440000",
+      userId: "550e8400-e29b-41d4-a716-446655440000",
+      createdAt: "2024-04-26T16:00:00Z",
+      name: "Checking Account",
+      accountType: "Checking",
+      initialBalance: 1000.00
+    },
+    {
+      id: "750e8400-e29b-41d4-a716-446655440001",
+      userId: "550e8400-e29b-41d4-a716-446655440001",
+      createdAt: "2024-04-26T17:00:00Z",
+      name: "Savings Account",
+      accountType: "Savings",
+      initialBalance: 5000.00
+    }
+  ])
+  budget_insertMany(data: [
+    {
+      id: "850e8400-e29b-41d4-a716-446655440000",
+      categoryId: "650e8400-e29b-41d4-a716-446655440000",
+      userId: "550e8400-e29b-41d4-a716-446655440000",
+      createdAt: "2024-04-26T18:00:00Z",
+      name: "Monthly Groceries",
+      budgetAmount: 300.00,
+      startDate: "2024-04-01",
+      endDate: "2024-04-30"
+    }
+  ])
+ transaction_insertMany(data: [
+   {
+     id: "950e8400-e29b-41d4-a716-446655440000",
+     accountId: "750e8400-e29b-41d4-a716-446655440000",
+     categoryId: "650e8400-e29b-41d4-a716-446655440000",
+     amount: 50.00,
+     createdAt: "2024-04-27T19:00:00Z",
+     transactionDate: "2024-04-26",
+     type: "Expense",
+     payeeSource: "Local Grocery Store"
+   }
+ ])
+}

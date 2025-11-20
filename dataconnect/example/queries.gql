@@ -1,0 +1,69 @@
+mutation CreateDemoUser @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") @transaction {
+  user_insertMany(data: [
+    {
+      id: "550e8400-e29b-41d4-a716-446655440000",
+      displayName: "demouser1",
+      createdAt: "2024-04-26T14:30:00Z",
+      email: "demouser1@example.com"
+    },
+    {
+      id: "661f9511-f3ab-52e5-b827-557766551111",
+      displayName: "demouser2",
+      createdAt: "2024-04-26T14:30:00Z",
+      email: "demouser2@example.com"
+    }
+  ])
+  category_insertMany(data: [
+    {
+      id: "772ga622-g4bc-63f6-c938-778877662222",
+      name: "Food",
+      type: "Expense",
+      userId: "550e8400-e29b-41d4-a716-446655440000",
+      createdAt: "2024-04-26T14:30:00Z"
+    },
+    {
+      id: "883hb733-h5cd-7407-da49-889988773333",
+      name: "Salary",
+      type: "Income",
+      userId: "661f9511-f3ab-52e5-b827-557766551111",
+      createdAt: "2024-04-26T14:30:00Z"
+    }
+  ])
+}
+
+query ListMyTransactions($userId: UUID!) @auth(level: USER) {
+  transactions(where: {account: {user: {id: {eq: $userId}}}}) {
+    id
+    amount
+    description
+    transactionDate
+  }
+}
+
+mutation CreateTransaction($accountId: UUID!, $categoryId: UUID!, $amount: Float!, $description: String!, $payeeSource: String!, $transactionDate: Date!, $type: String!) @auth(level: USER) {
+  transaction_insert(data: {
+    accountId: $accountId,
+    categoryId: $categoryId,
+    amount: $amount,
+    description: $description,
+    payeeSource: $payeeSource,
+    transactionDate: $transactionDate,
+    type: $type
+  })
+}
+
+query GetAccountDetails($accountId: UUID!) @auth(level: USER) {
+  account(id: $accountId) {
+    id
+    name
+    accountType
+    description
+    initialBalance
+    createdAt
+    user {
+      id
+      displayName
+      email
+    }
+  }
+}
